@@ -1,0 +1,10 @@
+{% extends 'base.html' %}
+
+{% block body %}
+<div class="text-center">
+<h1>Congratulations!</h1>
+<h3>회원가입에 성공했습니다</h3>
+<p>(이 파트를 메시지 알람으로 바꾸거나 signup에서 next로 login으로 넘어갔으면 좋겠다)</p>
+<p>로그인하시겠습니까? <a href='{% url 'accounts:login'%}'>로그인</a></p>
+</div>
+{% endblock %}

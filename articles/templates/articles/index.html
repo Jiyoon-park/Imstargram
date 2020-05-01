@@ -1,0 +1,90 @@
+{% extends 'base.html' %}
+
+{% load bootstrap4 %}
+
+{% block body %}
+    <div class="row">
+        <section class="col-8">
+            {% for article in articles %}
+                <div class="card px-0 my-4">
+                    <div class="card-header bg-white">
+                        <a href="{% url 'accounts:profile' article.user.username %}" class="text-dark font-weight-bold">{{ article.user.username }}</a>
+                        <p class="text-secondary mb-0">{{ article.location }}에서</p>
+                     </div>
+                  <img src="{{ article.image_thumbnail.url }}" class="card-img-top" alt="bread">
+                  <div class="card-body">
+                     {% if request.user in article.like_users.all %}
+                        <a href="{% url 'articles:like' article.pk %}"><i class="fas fa-heart fa-lg animated infinite pulse delay-2s" style="color:red;"></i></a>
+                    {% else %}
+                        <a href="{% url 'articles:like' article.pk %}"><i class="fas fa-heart fa-lg" style="color:grey;"></i></a>
+                    {% endif %}
+
+                    <a href="{% url 'articles:detail' article.pk %}"><i class="far fa-comment-dots fa-lg" style="color:black"></i></a>
+                    <p>{{ article.like_users.count }}명이 좋아합니다.</p>
+
+                    <p class="mb-0"><span class="font-weight-bold">{{ article.user.username }}</span> {{ article.content }}</p>
+                  </div>
+                  <hr class="my-0">
+                  <!-- comment -->
+                  <div class="card-body">
+                    {% if article.comment_set.all.count == 0 %}
+                        <p class="mb-0">작성된 댓글이 없습니다. 댓글을 달아주세요!</p>
+                    {% else %}
+                        <a href="{% url 'articles:detail' article.pk %}"><p class="mb-0">댓글 {{ article.comment_set.all.count }}개 모두 보기</p></a>
+                    {% endif %}
+                  </div>
+                </div>
+            {% endfor %}
+        </section>
+        <aside class="col-4">
+            <div class="my-4">
+            {% if request.user.is_authenticated %}
+                <a href="{% url 'accounts:profile' request.user.username %}"><i class="fas fa-user-check fa-2x" style="color:black;"></i><span class="text-dark font-weight-bold ml-2">{{ request.user.username }}</span></a>
+
+                <div class="card px-0 my-4">
+                    <div class="card-header bg-white">회원님을 위한 추천</div>
+                    {% for eachUser in allUser %}
+
+                        <div class="d-flex justify-content-between m-1">
+                        {% if eachUser != request.user %}
+                            <p class="m-1">{{ eachUser.username }}</p>
+                            {% if request.user in eachUser.followers.all %}
+                                <a href="{% url 'accounts:follow' eachUser.username %}"><button type="button" class="btn btn-outline-info btn-sm">언팔로우</button></a>
+                            {% else %}
+                                <a href="{% url 'accounts:follow' eachUser.username %}"><button type="button" class="btn btn-outline-info btn-sm">팔로우</button></a>
+                            {% endif %}
+                        {% endif %}
+                        </div>
+                    {% endfor %}
+
+                </div>
+            {% else %}
+                <i class="fas fa-user-check fa-2x" style="color:black;"></i><span class="text-dark font-weight-bold ml-2">AnonymousUser</span>
+                <div class="border border-secondary rounded mt-2 p-2">
+                    <p>로그인 하신다면 하실 수 있는 다양한 기능</p>
+                    <ul>
+                        <li>친구추천</li>
+                        <li>글 작성</li>
+                        <li>좋아요 누르기</li>
+                        <li>팔로우하기</li>
+                        <li>등등</li>
+                    </ul>
+                </div>
+            {% endif %}
+            </div>
+            <div>
+                <ul>
+                    <li>화질..?</li>
+                    <li>태그도 구현할 수 잇지 않나? article.withsomeone.all에 user.username이 있다면.</li>
+                    <li>모달 통한 댓글 확인</li>
+                    <li>유저프로필 사진?</li>
+                    <li>create 포스트 로그인 해야만 글 작성가능하도록 바꿀 것</li>
+                    <li>모달에 모델폼을 얹을 수 있나?회원가입/로그인/코멘트작성 폼 같은거...</li>
+                </ul>
+            </div>
+        </aside>
+    </div>
+
+
+
+{% endblock %}

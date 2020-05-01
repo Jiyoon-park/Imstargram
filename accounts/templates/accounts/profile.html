@@ -1,0 +1,61 @@
+{% extends 'base.html' %}
+{% load bootstrap4 %}
+{% block body %}
+    <h1 class='text-center'>{{ user.username }}</h1>
+    {% if request.user.is_authenticated %}
+        {% if user != request.user %}
+            {% if request.user in user.followers.all %}
+                <button><a href="{% url 'accounts:follow' user.username %}">unfollow</a></button>
+            {% else %}
+                <button><a href="{% url 'accounts:follow' user.username %}">follow</a></button>
+            {% endif %}
+        {% endif %}
+    {% endif %}
+    <p>게시물 {{ user.article_set.count }}</p>
+    <p>팔로워 {{ user.followers.all.count }}</p>
+    <p>팔로우 {{ user.followings.all.count }}</p>
+    <hr>
+
+    <div class="row no-gutters">
+    {% for article in user.article_set.all %}
+            <div class="col-sm"><a href="{% url 'articles:detail' article.pk %}" data-toggle="modal" data-target="#exampleModal"><img src="{{ article.image_thumbnail.url }}"></a></div>
+
+            <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+              <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">{{ article.created_at }}</h5>
+
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                  </div>
+                  <div class="modal-body">
+
+                    <img src="{{ article.image.url }}" class="card-img-top" alt="userUloadImage">
+                      <div class="card-body">
+                        <p>{{ article.content }}</p>
+                        <p>{{ article.withsomeone }}님과 함께/{{ article.location }}에서</p>
+                        <hr>
+
+                        {% for comment in article.comment_set.all %}
+                            <p>{{ comment.user.username }}: {{ comment.content }}</p>
+                        {% endfor %}
+                        <form action="{% url 'articles:comments_create' article.pk %}" method="POST">
+                            {% csrf_token %}
+                            {% bootstrap_form form %}
+                            <button type="submit" class="btn btn-primary">작성</button>
+                        </form>
+
+                      </div>
+                  </div>
+
+
+                </div>
+              </div>
+            </div>
+
+    {% endfor %}
+    </div>
+
+{% endblock %}

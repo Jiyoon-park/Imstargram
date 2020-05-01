@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+
+{% load bootstrap4 %}
+
+{% block body %}
+    <h1>DETAIL</h1>
+    <div class="card" style="width: 48rem;">
+      <img src="{{ article.image.url }}" class="card-img-top" alt="userUloadImage">
+      <div class="card-body">
+        <p>{{ article.content }}</p>
+        <p>{{ article.withsomeone }}님과 함께</p>
+        <p>{{ article.created_at }}에 작성된 글</p>
+        <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+      </div>
+    </div>
+    <img src="{{ article.image.url }}">
+    <p>{{ article.content }}</p>
+    <p>{{ article.withsomeone }}님과 함께</p>
+    <p>{{ article.created_at }}에 작성된 글</p>
+    <hr>
+    <h3>작성된 댓글</h3>
+    {% for comment in article.comment_set.all %}
+        <p>{{ comment.user.username }}: {{ comment.content }}</p>
+    {% endfor %}
+    <form action="{% url 'articles:comments_create' article.pk %}" method="POST">
+        {% csrf_token %}
+        {% bootstrap_form form %}
+        <button>작성</button>
+    </form>
+{% endblock %}

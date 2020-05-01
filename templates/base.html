@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+{% load bootstrap4 %}
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <script src="https://kit.fontawesome.com/45f8ebe30b.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.2/animate.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR&family=Pacifico&display=swap" rel="stylesheet">
+    <title>Imstargram</title>
+    {% bootstrap_css %}
+</head>
+<body>
+    <div class="sticky-top">
+        <div class="container px-0">
+            {% include '_nav.html' %}
+        </div>
+        <hr class="my-0">
+    </div>
+    <div class="container" style="font-family: 'Noto Sans KR', sans-serif;">
+        {% block body %}
+        {% endblock %}
+    </div>
+    {% bootstrap_javascript jquery='full' %}
+</body>
+</html>

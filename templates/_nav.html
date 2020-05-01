@@ -1,0 +1,29 @@
+{% load bootstrap4 %}
+<nav class="navbar navbar-white bg-white">
+  <a class="navbar-brand" href="{% url 'articles:index' %}" style="font-family: 'Pacifico', cursive; color: black; font-size:24px;">Imstargram</a>
+  <form class="form-inline my-2 my-lg-0">
+      <input class="form-control mr-sm-2 text-center" type="search" placeholder="검색 모양만 냄" aria-label="Search">
+  </form>
+  {% if request.user.is_authenticated %}
+    <div class="d-flex flex-row">
+      <!-- 홈 -->
+      <a href="{% url 'articles:index' %}" class="mx-2"><i class="fas fa-home fa-lg" style="color:black"></i></a>
+      <!-- 새글작성 -->
+      <a href="{% url 'articles:create' %}"><i class="fas fa-feather fa-lg" style="color:black"></i></a>
+      <!-- 로그인한 사용자 개인페이지 -->
+      <a href="{% url 'accounts:profile' request.user.username %}"><i class="fas fa-house-user fa-lg mx-2" style="color:black"></i></a>
+      <!-- 로그아웃 UI -->
+      <a href="{% url 'accounts:logout' %}"><button type="button" class="btn btn-secondary btn-sm">Logout</button></a>
+
+    </div>
+  {% else %}
+    <div class='d-flex flex-row'>
+      <!-- 홈 -->
+      <a href="{% url 'articles:index' %}"><i class="fas fa-home fa-lg" style="color:black"></i></a>
+      <!-- 회원가입 UI -->
+      <a href="{% url 'accounts:signup' %}"><button type="button" class="btn btn-info btn-sm mx-2">Signup</button></a>
+      <!-- 로그인 UI -->
+      <a href="{% url 'accounts:login' %}"><button type="button" class="btn btn-light btn-sm">Login</button></a>
+    </div>
+  {% endif %}
+</nav>
