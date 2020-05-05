@@ -61,3 +61,12 @@ def comments_create(request, article_pk):
             comment.article = article
             comment.save()
             return redirect('articles:detail', article_pk)
+
+def comments(request, article_pk):
+    article = get_object_or_404(Article, pk=article_pk)
+    form = CommentForm()
+    context = {
+        'article' : article,
+        'form' : form,
+    }
+    return render(request, 'articles/comment.html', context)

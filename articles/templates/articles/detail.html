@@ -3,16 +3,7 @@
 {% load bootstrap4 %}
 
 {% block body %}
-    <h1>DETAIL</h1>
-    <div class="card" style="width: 48rem;">
-      <img src="{{ article.image.url }}" class="card-img-top" alt="userUloadImage">
-      <div class="card-body">
-        <p>{{ article.content }}</p>
-        <p>{{ article.withsomeone }}님과 함께</p>
-        <p>{{ article.created_at }}에 작성된 글</p>
-        <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-      </div>
-    </div>
+    <h2 class="text-center">{{ article.user.username }}님의 {{ article.pk }}번 글</h2>
     <img src="{{ article.image.url }}">
     <p>{{ article.content }}</p>
     <p>{{ article.withsomeone }}님과 함께</p>

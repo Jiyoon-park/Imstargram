@@ -12,7 +12,11 @@
         {% endif %}
     {% endif %}
     <p>게시물 {{ user.article_set.count }}</p>
-    <p>팔로워 {{ user.followers.all.count }}</p>
+    {% if user.followers.all.count != 0 %}
+      <p>팔로워 {{ user.followers.all.count }}백만</p>
+    {% else %}
+      <p>팔로워 {{ user.followers.all.count }}</p>
+    {% endif %}
     <p>팔로우 {{ user.followings.all.count }}</p>
     <hr>
 
