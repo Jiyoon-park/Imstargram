@@ -61,12 +61,12 @@
                     {% else %}
                         <p>작성된 댓글이 {{ article.comment_set.all.count }}개 있습니다.</p></a>
                         <!-- Button trigger modal -->
-                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal{{ article.pk }}">
                           댓글 모두 보기
                         </button>
 
                         <!-- Modal -->
-                        <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal fade" id="exampleModal{{ article.pk }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                           <div class="modal-dialog" role="document">
                             <div class="modal-content">
                               <div class="modal-header">
@@ -133,8 +133,6 @@
             <div>
                 <ul>
                     <li>아이디 test/ 비밀번호 테스트테스트 로 로그인해보세요!</li>
-                    <li>모달 통한 댓글 확인_구현했으나 다른 아티클의 코멘트가 떠버리는 문제.</li>
-                    <li>같은 문제 accounts:profile에서도 발생/ 모달은 for 문 안에 들어갈 수 없는걸까?</li>
                     <li>유저프로필 사진?</li>
                     <li>create 포스트 로그인 해야만 글 작성가능하도록 바꿀 것</li>
                 </ul>

@@ -22,9 +22,9 @@
 
     <div class="row no-gutters">
     {% for article in user.article_set.all %}
-            <div class="col-sm"><a href="{% url 'articles:detail' article.pk %}" data-toggle="modal" data-target="#exampleModal"><img src="{{ article.image_thumbnail.url }}"></a></div>
+            <div class="col-sm"><a href="{% url 'articles:detail' article.pk %}" data-toggle="modal" data-target="#exampleModal{{ article.pk }}"><img src="{{ article.image_thumbnail.url }}"></a></div>
 
-            <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal fade" id="exampleModal{{ article.pk }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
               <div class="modal-dialog" role="document">
                 <div class="modal-content">
                   <div class="modal-header">
