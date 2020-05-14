@@ -94,18 +94,19 @@
                 </div>
             {% endfor %}
         </section>
+
         <aside class="col-4">
             <div class="my-4">
             {% if request.user.is_authenticated %}
-                <a href="{% url 'accounts:profile' request.user.username %}"><i class="fas fa-user-check fa-2x" style="color:black;"></i><span class="text-dark font-weight-bold ml-2">{{ request.user.username }}</span></a>
+                <a href="{% url 'accounts:profile' request.user.username %}"><span class="text-dark font-weight-bold ml-2">✨ {{ request.user.username }} ✨</span></a>
 
                 <div class="card px-0 my-4">
                     <div class="card-header bg-white">{{ request.user.username }} 님을 위한 셀럽 추천</div>
+                    <div class="my-1">
                     {% for eachUser in allUser %}
-
-                        <div class="d-flex justify-content-between m-1">
+                        <div class="d-flex justify-content-between mx-2 my-1">
                         {% if eachUser != request.user %}
-                            <p class="m-1">{{ eachUser.username }}</p>
+                            <p class="m-1"><a href="{% url 'accounts:profile' eachUser.username %}" class="text-dark">{{ eachUser.username }}</a></p>
                             {% if request.user in eachUser.followers.all %}
                                 <a href="{% url 'accounts:follow' eachUser.username %}"><button type="button" class="btn btn-outline-info btn-sm">언팔로우</button></a>
                             {% else %}
@@ -114,10 +115,11 @@
                         {% endif %}
                         </div>
                     {% endfor %}
+                    </div>
 
                 </div>
             {% else %}
-                <i class="fas fa-user-check fa-2x" style="color:black;"></i><span class="text-dark font-weight-bold ml-2">AnonymousUser</span>
+                <span class="text-dark font-weight-bold ml-2">AnonymousUser</span>
                 <div class="border border-secondary rounded mt-2 p-2">
                     <p>로그인 하신다면 하실 수 있는 다양한 기능</p>
                     <ul>
