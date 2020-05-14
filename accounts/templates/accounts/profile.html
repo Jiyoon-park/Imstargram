@@ -1,65 +1,61 @@
 {% extends 'base.html' %}
 {% load bootstrap4 %}
 {% block body %}
-    <h1 class='text-center'>{{ user.username }}</h1>
+    <h1 class="text-center mt-5"> {{ user.username }} 🏡</h1>
+
+    <div class="text-center my-3">
+      <p class="my-1 mx-2 d-inline"><span class="font-weight-bold">게시물</span> {{ user.article_set.count }}</p>
+      {% if user.followers.all.count != 0 %}
+        <p class="my-1 mx-2 d-inline"><span class="font-weight-bold">팔로워</span> {{ user.followers.all.count }}백만</p>
+      {% else %}
+        <p class="my-1 mx-2 d-inline"><span class="font-weight-bold">팔로워</span> {{ user.followers.all.count }}</p>
+      {% endif %}
+      <p class="my-1 mx-2 d-inline"><span class="font-weight-bold">팔로우</span> {{ user.followings.all.count }}</p>
+    </div>
+
+    <div class="d-flex justify-content-end mt-5">
     {% if request.user.is_authenticated %}
         {% if user != request.user %}
             {% if request.user in user.followers.all %}
-                <button><a href="{% url 'accounts:follow' user.username %}">unfollow</a></button>
+                <button class="btn btn-secondary"><a href="{% url 'accounts:follow' user.username %}" class="text-white text-decoration-none">unfollow</a></button>
             {% else %}
-                <button><a href="{% url 'accounts:follow' user.username %}">follow</a></button>
+                <button class="btn btn-primary"><a href="{% url 'accounts:follow' user.username %}" class="text-white text-decoration-none">follow</a></button>
             {% endif %}
         {% endif %}
     {% endif %}
-    <p>게시물 {{ user.article_set.count }}</p>
-    {% if user.followers.all.count != 0 %}
-      <p>팔로워 {{ user.followers.all.count }}백만</p>
-    {% else %}
-      <p>팔로워 {{ user.followers.all.count }}</p>
-    {% endif %}
-    <p>팔로우 {{ user.followings.all.count }}</p>
-    <hr>
+    </div>
+    <hr class="my-4">
 
-    <div class="row no-gutters">
-    {% for article in user.article_set.all %}
-            <div class="col-sm"><a href="{% url 'articles:detail' article.pk %}" data-toggle="modal" data-target="#exampleModal{{ article.pk }}"><img src="{{ article.image_thumbnail.url }}"></a></div>
+    <div class="d-flex justify-content-center">
+      <div>
+      {% for article in user.article_set.all %}
+              <a href="{% url 'articles:detail' article.pk %}" data-toggle="modal" data-target="#exampleModal{{ article.pk }}"><img src="{{ article.image_thumbnail.url }}" class="m-4"></a>
+              <div class="modal fade" id="exampleModal{{ article.pk }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <h5 class="modal-title" id="exampleModalLabel">{{ article.created_at }}</h5>
 
-            <div class="modal fade" id="exampleModal{{ article.pk }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-              <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                  <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">{{ article.created_at }}</h5>
-
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                      <span aria-hidden="true">&times;</span>
-                    </button>
-                  </div>
-                  <div class="modal-body">
-
-                    <img src="{{ article.image.url }}" class="card-img-top" alt="userUloadImage">
-                      <div class="card-body">
-                        <p>{{ article.content }}</p>
-                        <p>{{ article.withsomeone }}님과 함께/{{ article.location }}에서</p>
-                        <hr>
-
-                        {% for comment in article.comment_set.all %}
-                            <p>{{ comment.user.username }}: {{ comment.content }}</p>
-                        {% endfor %}
-                        <form action="{% url 'articles:comments_create' article.pk %}" method="POST">
-                            {% csrf_token %}
-                            {% bootstrap_form form %}
-                            <button type="submit" class="btn btn-primary">작성</button>
-                        </form>
+                      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                      </button>
+                    </div>
+                    <div class="modal-body">
+                      <p>{{ article.withsomeone }}님과 함께 {{ article.location }}에서</p>
+                      <img src="{{ article.image.url }}" class="card-img-top" alt="userUloadImage">
+                      <div class="d-flex justify-content-end align-items-center my-2">
+                        <i class="fas fa-heart fa-lg animated infinite pulse delay-2s" style="color:red;"></i>
+                        <span class="ml-2">{{ article.like_users.count }} likes</span>
 
                       </div>
+                        <div class="card-body">
+                          <p class="text-center">{{ article.content }}</p>
+                        </div>
+                    </div>
                   </div>
-
-
                 </div>
               </div>
-            </div>
-
-    {% endfor %}
+      {% endfor %}
+      </div>
     </div>
-
 {% endblock %}

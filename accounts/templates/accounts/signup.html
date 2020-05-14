@@ -3,11 +3,14 @@
 
 {% block body %}
     <!-- Button trigger modal -->
-    <h1>Signup</h1>
+
+    <h1 class="text-center mt-5">Signup</h1>
     <hr>
     <form action="" method="POST" enctype="multipart/form-data">
     {% csrf_token %}
     {% bootstrap_form form %}
-    <button>Submit</button>
+    <div class="d-flex justify-content-end">
+        <button class="btn btn-primary">Submit</button>
+    </div>
   </form>
 {% endblock %}

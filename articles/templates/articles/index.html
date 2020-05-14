@@ -27,7 +27,7 @@
                   <hr class="my-0">
 
                   <!-- comment -->
-                  <div class="card-body d-flex justify-content-between">
+                  <div class="card-body d-flex justify-content-between align-items-center">
                     {% if article.comment_set.all.count == 0 %}
                         <p class="mb-0">작성된 댓글이 없습니다. 댓글을 달아주세요!</p>
                         <!-- Button trigger modal -->
@@ -59,7 +59,7 @@
                         </div>
 
                     {% else %}
-                        <p>작성된 댓글이 {{ article.comment_set.all.count }}개 있습니다.</p></a>
+                        <p class="mb-0">작성된 댓글이 {{ article.comment_set.all.count }}개 있습니다.</p></a>
                         <!-- Button trigger modal -->
                         <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal{{ article.pk }}">
                           댓글 모두 보기
