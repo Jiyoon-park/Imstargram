@@ -3,6 +3,7 @@ from .forms import ArticleForm, CommentForm
 from .models import Article, Comment
 from django.http import HttpResponse
 from accounts.models import User
+from django.contrib.auth.decorators import login_required
 
 # Create your views here.
 def index(request):
@@ -16,6 +17,7 @@ def index(request):
     }
     return render(request, 'articles/index.html', context)
 
+@login_required
 def create(request):
     if request.method == 'POST':
         form = ArticleForm(request.POST, request.FILES)

@@ -26,6 +26,7 @@
     </div>
     <hr class="my-4">
 
+    {% if user.article_set.count != 0 %}
     <div class="d-flex justify-content-center">
       <div>
       {% for article in user.article_set.all %}
@@ -58,4 +59,7 @@
       {% endfor %}
       </div>
     </div>
+    {% else %}
+    <h5 class="text-center mt-5">{{ user.username }}님이 공유한 사진이 없습니다.</h5>
+    {% endif %}
 {% endblock %}
