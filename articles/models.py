@@ -15,6 +15,10 @@ class Article(models.Model):
     #                                       processors=[Thumbnail(300, 300)],
     #                                       format='JPEG',
     #                                       options={'quality': 60})
+    image_resizetofill = ImageSpecField(source='image',
+                                      processors=[ResizeToFill(550, 550)],
+                                      format='JPEG',
+                                      options={'quality': 60})
     content = models.TextField()
     location = models.CharField(max_length=20)
     withsomeone = models.CharField(max_length=20)

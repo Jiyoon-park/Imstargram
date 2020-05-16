@@ -42,6 +42,12 @@ def detail(request, article_pk):
     }
     return render(request, 'articles/detail.html', context)
 
+def delete(request, article_pk):
+    article = get_object_or_404(Article, pk=article_pk)
+    article.delete()
+    return redirect('accounts:profile', article.user.username)
+
+
 def like(request, article_pk):
     article = get_object_or_404(Article, pk=article_pk)
     if request.user.is_authenticated:
