@@ -4,20 +4,20 @@
 
 {% block body %}
     <h1 class="text-center mt-5">{{ article.user.username }}님의 {{ article.pk }}번 글</h1>
-    <hr>
+    <hr class="my-5">
     <div class="row">
     <section class="col-6">
         <img src="{{ article.image_resizetofill.url }}" class="inline">
     </section>
     <section class="col-6">
-        <div class="card border-info mb-3">
+        <div class="card mb-3">
           <h5 class="card-header">{{ article.created_at }}</h5>
           <div class="card-body">
             <p class="card-text d-flex justify-content-end">{{ article.withsomeone }}님과 함께</p>
             <h5 class="card-title">{{ article.content }}</h5>
             {% if request.user == article.user %}
             <div class="d-flex justify-content-end">
-                <a href="#" class="btn btn-warning mr-2">수정</a>
+                <a href="{% url 'articles:update' article.pk %}" class="btn btn-warning mr-2">수정</a>
                 <a href="{% url 'articles:delete' article.pk %}" class="btn btn-danger">삭제</a>
             </div>
             {% endif %}
@@ -25,21 +25,24 @@
         </div>
 
 
-        <div class="card">
-          <h5 class="card-header">댓글</h5>
+        <div class="card border-light mb-3">
+          <h5 class="card-header bg-white">소중한 댓글</h5>
           <div class="card-body">
             {% for comment in article.comment_set.all %}
                 <p>{{ comment.user.username }}: {{ comment.content }}</p>
             {% endfor %}
+          </div>
+        </div>
 
-
-            <form action="{% url 'articles:comments_create' article.pk %}" method="POST">
-                {% csrf_token %}
-                {% bootstrap_form form %}
-                <div class="d-flex justify-content-end">
-                    <button class="btn btn-primary">작성</button>
-                </div>
-            </form>
+        <div class="card bg-light mb-3">
+          <div class="card-body">
+               <form action="{% url 'articles:comments_create' article.pk %}" method="POST">
+                    {% csrf_token %}
+                    {% bootstrap_form form %}
+                    <div class="d-flex justify-content-end">
+                        <button class="btn btn-primary">작성</button>
+                    </div>
+                </form>
           </div>
         </div>
     </section>

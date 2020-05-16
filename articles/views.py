@@ -47,6 +47,22 @@ def delete(request, article_pk):
     article.delete()
     return redirect('accounts:profile', article.user.username)
 
+def update(request, article_pk):
+    article = get_object_or_404(Article, pk=article_pk)
+    if request.method == 'POST':
+        form = ArticleForm(request.POST, request.FILES, instance=article)
+        if form.is_valid():
+            article = form.save(commit=False)
+            article.user = request.user
+            article.save()
+            return redirect('articles:detail', article.pk)
+    else:
+        form = ArticleForm(instance=article)
+    context = {
+        'form' : form
+    }
+    return render(request, 'articles/form.html', context)
+
 
 def like(request, article_pk):
     article = get_object_or_404(Article, pk=article_pk)

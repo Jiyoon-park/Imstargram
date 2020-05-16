@@ -2,7 +2,11 @@
 {% load bootstrap4 %}
 
 {% block body %}
-<h1 class="text-center mt-5">Create</h1>
+{% if request.resolver_match.url_name == 'create' %}
+    <h1 class="text-center mt-5">Create</h1>
+{% else %}
+    <h1 class="text-center mt-5">Update</h1>
+{% endif %}
 <hr>
 <form action="" method="POST" enctype="multipart/form-data">
     {% csrf_token %}
