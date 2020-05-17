@@ -4,7 +4,7 @@ from .models import Article, Comment
 from django.http import HttpResponse
 from accounts.models import User
 from django.contrib.auth.decorators import login_required
-
+from django.views.decorators.http import require_POST
 # Create your views here.
 def index(request):
     articles = Article.objects.order_by('-pk')
@@ -42,6 +42,8 @@ def detail(request, article_pk):
     }
     return render(request, 'articles/detail.html', context)
 
+@require_POST
+@login_required
 def delete(request, article_pk):
     article = get_object_or_404(Article, pk=article_pk)
     article.delete()
@@ -75,6 +77,8 @@ def like(request, article_pk):
     else:
         return HttpResponse(status=401)
 
+@login_required
+@require_POST
 def comments_create(request, article_pk):
     article = get_object_or_404(Article, pk=article_pk)
     if request.method == 'POST':
