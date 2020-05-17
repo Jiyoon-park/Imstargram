@@ -130,4 +130,3 @@ MESSAGE_STORAGE = 'django.contrib.messages.storage.session.SessionStorage'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 # https://docs.djangoproject.com/en/2.1/howto/static-files/#serving-files-uploaded-by-a-user-during-development
 MEDIA_URL = '/media/'
-

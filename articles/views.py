@@ -1,10 +1,12 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from .forms import ArticleForm, CommentForm
-from .models import Article, Comment
-from django.http import HttpResponse
-from accounts.models import User
+from django.http import HttpResponse, HttpResponseForbidden
+from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.http import require_POST
+from .forms import ArticleForm, CommentForm
+from .models import Article, Comment
+from accounts.models import User
+
 # Create your views here.
 def index(request):
     articles = Article.objects.order_by('-pk')
@@ -77,18 +79,21 @@ def like(request, article_pk):
     else:
         return HttpResponse(status=401)
 
-@login_required
 @require_POST
 def comments_create(request, article_pk):
-    article = get_object_or_404(Article, pk=article_pk)
-    if request.method == 'POST':
-        form = CommentForm(request.POST)
-        if form.is_valid():
-            comment = form.save(commit=False)
-            comment.user = request.user
-            comment.article = article
-            comment.save()
-            return redirect('articles:detail', article_pk)
+    if request.user.is_authenticated:
+        article = get_object_or_404(Article, pk=article_pk)
+        if request.method == 'POST':
+            form = CommentForm(request.POST)
+            if form.is_valid():
+                comment = form.save(commit=False)
+                comment.user = request.user
+                comment.article = article
+                comment.save()
+                return redirect('articles:detail', article_pk)
+    else:
+        messages.warning(request, '해당 기능은 로그인이 필요합니다.')
+        return redirect('accounts:login')
 
 def comments(request, article_pk):
     article = get_object_or_404(Article, pk=article_pk)

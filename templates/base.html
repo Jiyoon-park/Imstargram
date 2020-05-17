@@ -18,6 +18,12 @@
         </div>
         <hr class="my-0">
     </div>
+     {% if messages %}
+        {% for message in messages %}
+        <div {% if message.tags %} class="alert alert-{{ message.tags }} text-center"{% endif %}>{{ message }}</div>
+        {% endfor %}
+    {% endif %}
+
     <div class="container" style="font-family: 'Noto Sans KR', sans-serif;">
         {% block body %}
         {% endblock %}
